@@ -16,4 +16,8 @@ class PostService {
     public function getAllPosts(){
         return $this->postRepository->all();
     }
+
+    public function createPost(array $data){
+        return $this->postRepository->create($data);
+    }
 }

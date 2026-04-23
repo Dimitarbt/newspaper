@@ -32,5 +32,6 @@ async function getAllPosts(){
 
 <template>
     <h1 class="text-red-500 text-3xl">Posts</h1>
+    <RouterLink :to="{name:'create-post'}">Create Post</RouterLink>
     <Post :posts="posts" />
 </template>
