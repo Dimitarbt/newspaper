@@ -20,4 +20,8 @@ class PostService {
     public function createPost(array $data){
         return $this->postRepository->create($data);
     }
+
+    public function deletePost($id){
+        return $this->postRepository->delete($id);
+    }
 }

@@ -23,8 +23,10 @@ async function getAllPosts(){
     } catch(erorr) {
        console.log(error)
     }
+}
 
-  
+function handlePostDelete(){
+    getAllPosts();
 }
 
 
@@ -33,5 +35,5 @@ async function getAllPosts(){
 <template>
     <h1 class="text-red-500 text-3xl">Posts</h1>
     <RouterLink :to="{name:'create-post'}">Create Post</RouterLink>
-    <Post :posts="posts" />
+    <Post :posts="posts" @delete-post="handlePostDelete" />
 </template>

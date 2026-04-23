@@ -80,6 +80,8 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->postService->deletePost($id);
+
+        return response()->json(['message' => 'Post deleted successfully']);
     }
 }
