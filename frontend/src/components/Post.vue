@@ -2,21 +2,20 @@
 import axiosClient from '../axios';
 import { router } from '../router';
 
-
+import { deletePost } from '../services/postService';
 const props = defineProps({
     posts:Object
 })
 
 const emit = defineEmits(['delete-post'])
 
-async function deletePost(id){
+async function handlePostDelete(id){
     if(!confirm('Are you sure you want to delete this post?')){
         return;
     }
     try{
-        await axiosClient.delete(`/posts/${id}`);
+        await deletePost(id);
         emit('delete-post');
-        //posts.value = posts.value.filter(post => post.id !== id)
     }
     catch(error){
         console.log(error);
@@ -32,7 +31,7 @@ async function deletePost(id){
                 <p class="text-gray-600">Published on {{ post.created_at }}</p>
            </div>
            <div>
-             <button @click="deletePost(post.id)" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 m-3">Delete</button>
+             <button @click="handlePostDelete(post.id)" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 m-3">Delete</button>
              <button class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Edit</button>
            </div>
             
