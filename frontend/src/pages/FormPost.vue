@@ -11,7 +11,8 @@ const form = ref({
     post_image: null
 })
 
-const message = ref('');
+const errorMsg = ref({});
+
 
 const handleImage = (e) =>{
     form.value.post_image = e.target.files[0];
@@ -32,7 +33,7 @@ async function submitForm(){
         router.push({name:'posts'})
     } catch (error) {
         console.log(error)
-        message.value = error.response.data.message || 'An error occurred while creating the post.';
+        errorMsg.value = error.response.data.errors || 'An error occurred while creating the post.';
     }
 } 
 </script>
@@ -41,19 +42,22 @@ async function submitForm(){
 <template>
 <div class="max-w-2xl mx-auto p-4 mt-10 bg-white rounded-2xl shadow-xl">
   <h2 class="text-2xl font-bold mb-6 text-gray-900">Create Post</h2>
-  <div v-if="message" class="text-red-500 mb-4">
-    {{ message }}
-  </div>
   <form @submit.prevent="submitForm" class="space-y-6">
    <label for="title">Title</label>
    <input type="text" v-model="form.title" id="title" name="title" class="w-full p-2 border border-gray-300 rounded-md mb-4" />
-
+    <div v-if="errorMsg.title" class="text-red-500 mb-2">
+        {{ errorMsg.title[0] }}
+    </div>
    <label for="body">Body</label>   
    <textarea id="body" v-model="form.body" name="body" class="w-full p-2 border border-gray-300 rounded-md mb-4"></textarea>
-   
+    <div v-if="errorMsg.body" class="text-red-500 mb-2">
+        {{ errorMsg.body[0]}}
+    </div>
    <label for="post_image">Image</label>
    <input type="file" id="post_image" @change="handleImage" name="post_image" class="w-full p-2 border border-gray-300 rounded-md mb-4" />
-   
+    <div v-if="errorMsg.post_image" class="text-red-500 mb-2">
+        {{ errorMsg.post_image[0] }}
+    </div>
     <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Submit</button>
   </form>
 </div>
