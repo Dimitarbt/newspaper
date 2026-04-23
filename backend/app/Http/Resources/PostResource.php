@@ -19,7 +19,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
-            'post_image' => asset('storage/' . $this->post_image),
+            'post_image' => $this->post_image ? asset('storage/' . $this->post_image) : asset('storage/posts/default.png'),
         ];
     }
 }
