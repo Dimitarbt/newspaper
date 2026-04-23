@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostRequest;
+use App\Http\Resources\PostResource;
 use App\Services\PostService;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,11 @@ class PostController extends Controller
      */
     public function index()
     {
-      return $this->postService->getAllPosts();
+      //return $this->postService->getAllPosts();
+       $posts = $this->postService->getAllPosts();
+
+       return PostResource::collection($posts);
+      
     }
 
     /**
@@ -38,6 +43,11 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
      $data = $request->validated();
+ 
+     if($request->hasFile('post_image')){
+        $request = $request->file('post_image')->store('posts','public');
+        $data['post_image'] = $request;
+     }
      return $this->postService->createPost($data);   
     }
 

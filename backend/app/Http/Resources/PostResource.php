@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class PostResource extends JsonResource
 {
+    
     /**
      * Transform the resource into an array.
      *
@@ -18,9 +19,7 @@ class PostResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'body' => $this->body,
-            'post_image' => $this->post_image,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'post_image' => asset('storage/' . $this->post_image),
         ];
     }
 }
