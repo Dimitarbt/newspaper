@@ -7,6 +7,9 @@ const routes = [
   },
   {    
     path:'/create-post', name: "create-post", component:FormPost
+  },
+   {    
+    path:'/edit-post/:id', name: "edit-post", component:FormPost, params:true
   }
 ];
 

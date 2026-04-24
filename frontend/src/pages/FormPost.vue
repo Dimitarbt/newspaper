@@ -1,9 +1,9 @@
 <script setup>
 import axios from 'axios';
-import { ref } from 'vue';
-import axiosClient from '../axios';
-import { createPost } from '../services/postService';
+import { onMounted, ref } from 'vue';
+import { createPost, getPost, updatePost } from '../services/postService';
 import { router } from '../router';
+import { useRoute } from 'vue-router';
 
 const form = ref({
     title: '',
@@ -12,6 +12,21 @@ const form = ref({
 })
 
 const errorMsg = ref({});
+const isEditMode = ref(false);
+const route = useRoute()
+
+onMounted(async () => {
+    if(route.params.id){
+        isEditMode.value = true;
+        const response = await getPost(route.params.id);
+        form.value.title = response.data .title;
+        form.value.body = response.data.body;
+        // console.log(response.data)
+        // if(response.data.post_image){
+        //     form.value.post_image = response.data.post_image;
+        // }
+    }
+})
 
 
 const handleImage = (e) =>{
@@ -28,8 +43,17 @@ async function submitForm(){
 
     try {
         //const response = await axiosClient.post('/posts', formData) 
-        const response = await createPost(formData)
-        console.log(response.data)
+        if(isEditMode.value){
+            formData.append('_method','PUT');
+            const response = await updatePost(route.params.id, formData);
+            console.log(response.data)
+
+        }
+        else{
+            const response = await createPost(formData)
+            console.log(response.data)
+
+        }
         router.push({name:'posts'})
     } catch (error) {
         console.log(error)
@@ -58,7 +82,7 @@ async function submitForm(){
     <div v-if="errorMsg.post_image" class="text-red-500 mb-2">
         {{ errorMsg.post_image[0] }}
     </div>
-    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Submit</button>
+    <button type="submit" :class="[isEditMode ? 'bg-green-500 hover:bg-green-600' : 'bg-blue-500 hover:bg-blue-600', 'px-4 py-2 text-white rounded-md']">{{ isEditMode ? 'Update' : 'Create'}} Post</button>
   </form>
 </div>
 

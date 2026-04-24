@@ -32,7 +32,7 @@ async function handlePostDelete(id){
            </div>
            <div>
              <button @click="handlePostDelete(post.id)" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 m-3">Delete</button>
-             <button class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Edit</button>
+             <button @click="router.push({name:'edit-post',params:{id:post.id}})" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">Edit</button>
            </div>
             
         </header>

@@ -56,7 +56,9 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = $this->postService->findPost($id);
+
+        return new PostResource($post);
     }
 
     /**
@@ -70,9 +72,11 @@ class PostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StorePostRequest $request, string $id)
     {
-        //
+        $data = $request->validated();
+        $post = $this->postService->updatePost($id, $data);
+        return new PostResource($post);
     }
 
     /**
