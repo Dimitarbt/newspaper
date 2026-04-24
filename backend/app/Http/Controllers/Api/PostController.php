@@ -7,6 +7,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Resources\PostResource;
 use App\Services\PostService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -75,6 +76,14 @@ class PostController extends Controller
     public function update(StorePostRequest $request, string $id)
     {
         $data = $request->validated();
+        $post = $this->postService->findPost($id);
+        if ($request->hasFile('post_image')){
+            if($post->post_image && Storage::disk('public')->exists($post->post_image)){
+                Storage::disk('public')->delete($post->post_image);
+            }
+            $path = $request->file('post_image')->store('posts','public');
+            $data['post_image'] = $path;
+        }
         $post = $this->postService->updatePost($id, $data);
         return new PostResource($post);
     }
