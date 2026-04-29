@@ -21,7 +21,7 @@ const routes = [
     path: '/login', name: 'login', component: Login
   },
   {
-    path: '/register', name: 'register', component: Register
+    path: '/signup', name: 'signup', component: Register
   }
 ];
 

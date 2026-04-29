@@ -1,0 +1,8 @@
+import axiosClient from "../axios"
+
+
+export const registerUser = (data) => { axiosClient.post('/auth/register',data)}
+
+export const loginUser = (data) => axiosClient.post('/auth/login',data)
+
+export const logoutUser = () => axiosClient.post('/auth/logout')

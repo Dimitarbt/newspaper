@@ -30,7 +30,7 @@ import AuthLayout from '../layouts/AuthLayout.vue'
       <p class="mt-10 text-center text-sm/6 text-gray-400">
         Not a member?
         {{ ' ' }}
-        <RouterLink :to="{name:'register'}" class="font-semibold text-indigo-400 hover:text-indigo-300">Sign up</RouterLink>
+        <RouterLink :to="{name:'signup'}" class="font-semibold text-indigo-400 hover:text-indigo-300">Sign up</RouterLink>
       </p>
 </AuthLayout>
 </template>

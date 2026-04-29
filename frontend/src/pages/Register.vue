@@ -1,23 +1,56 @@
 <script setup>
+import { ref } from 'vue';
 import AuthLayout from '../layouts/AuthLayout.vue'
+import axiosClient from '../axios';
+import { router } from '../router';
+import { registerUser } from '../services/authService';
+
+
+const form = ref(
+    {
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+    })
+
+const handleRegisterUser = async () => {
+    
+    // axiosClient.post('/auth/register', form.value)
+    // .then(({data}) => {
+    //     console.log(data);
+    //     alert('User registered successfully!');
+    // })
+
+    try {
+        const data = await registerUser(form.value)
+        console.log(data);
+        alert('User registered successfully!');
+        router.push({name:'posts'});
+    } catch (error) {
+        console.error(error);
+        alert('An error occurred while registering the user.');
+    }
+}
+
 </script>
 
 
 <template>
 <AuthLayout name="Sign up for an account">
-      <form class="space-y-6" action="#" method="POST">
+      <form class="space-y-6" @submit.prevent="handleRegisterUser">
 
         <div>
           <label for="name" class="block text-sm/6 font-medium text-gray-500">Full Name</label>
           <div class="mt-2">
-            <input type="text" name="name" id="name" autocomplete="name" required="" class="block w-full rounded-md  px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+            <input type="text" v-model="form.name" name="name" id="name" autocomplete="name" required="" class="block w-full rounded-md  px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
           </div>
         </div>
 
         <div>
           <label for="email" class="block text-sm/6 font-medium text-gray-500">Email address</label>
           <div class="mt-2">
-            <input type="email" name="email" id="email" autocomplete="email" required="" class="block w-full rounded-md  px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+            <input type="email" v-model="form.email" name="email" id="email" autocomplete="email" required="" class="block w-full rounded-md  px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
           </div>
         </div>
 
@@ -26,16 +59,16 @@ import AuthLayout from '../layouts/AuthLayout.vue'
             <label for="password" class="block text-sm/6 font-medium text-gray-500">Password</label>
           </div>
           <div class="mt-2">
-            <input type="password" name="password" id="password" autocomplete="current-password" required="" class="block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+            <input type="password" v-model="form.password" name="password" id="password" autocomplete="current-password" required="" class="block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
           </div>
         </div>
 
         <div>
           <div class="flex items-center justify-between">
-            <label for="confirm_password" class="block text-sm/6 font-medium text-gray-500">Confirm Password</label>
+            <label for="password_confirmation" class="block text-sm/6 font-medium text-gray-500">Confirm Password</label>
           </div>
           <div class="mt-2">
-            <input type="password" name="confirm_password" id="confirm_password" autocomplete="current-password" required="" class="block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
+            <input type="password" v-model="form.password_confirmation" name="password_confirmation" id="password_confirmation" required="" class="block w-full rounded-md px-3 py-1.5 text-base outline-1 -outline-offset-1 outline-white/10 placeholder:text-gray-500 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6" />
           </div>
         </div>
 
